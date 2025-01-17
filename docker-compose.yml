@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  database:
+    build:
+      context: ./database
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mypassword123!
+      POSTGRES_DB: coding-challenge
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+  app:
+    build:
+      context: ./test-app
+    container_name: node_app
+    ports:
+      - "3000:3000"  
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: mypassword123!
+      DB_NAME: coding-challenge
+    volumes:
+      - ./app:/usr/src/app  
+    networks:
+      - my-network 
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  db_data:
