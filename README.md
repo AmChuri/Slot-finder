@@ -14,9 +14,9 @@ Make sure you have the following installed on your system:
 
 To build and start the entire application using Docker Compose, run the following command:
 
-````bash
+```bash
 docker-compose up --build
-
+```
 
 ## Running the PostgreSQL Database Container Separately
 
@@ -59,12 +59,36 @@ To run the tests for the Node.js application after starting the PostgreSQL datab
     ```bash
     npm install
     ```
+3. Start the Node.js server:
 
-3. Run the tests:
+    ```bash
+    npm start
+    ```
+
+The server will now be running on `http://localhost:3000/` and making `POST` Request on `http://localhost:3000/calendar/query` and will communicate with the PostgreSQL database.
+
+### Accepted Query Format
+
+The following type of query is accepted by the application:
+
+```json
+{
+  "date": "2024-05-04",
+  "products": ["Heatpumps","SolarPanels"],
+  "language": "English",
+  "rating": "Silver"
+}
+```
+
+4. Run the tests in new terminal:
 
     ```bash
     npm test
     ```
 
 The tests will now run, and you'll see the output of your tests in the terminal.
-````
+
+## Note
+`.env` file is included in the project for simplification. 
+
+When both services are when started in docker-compose communicate using private network
